@@ -23,7 +23,7 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
-    Task findOne(@PathVariable Long id) {
+    public Task findOne(@PathVariable Long id) {
         return todoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException());
     }
@@ -35,7 +35,11 @@ public class TodoController {
 
     @PutMapping
     public Task update(@Valid @NotNull @RequestBody Task task) {
-        return todoRepository.save(task);
+        if(todoRepository.findById(task.getId()).isPresent()) {
+            return todoRepository.save(task);
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     @DeleteMapping(value = "/{id}")
