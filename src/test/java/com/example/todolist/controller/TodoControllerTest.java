@@ -35,7 +35,7 @@ class TodoControllerTest {
         testTask1.setTitle("This is test task 1");
         todoController.save(testTask1);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/todo/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/todo/2"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("This is test task 1"))
@@ -60,9 +60,9 @@ class TodoControllerTest {
     @Test
     void update() throws Exception {
         Task testTask1 = new Task();
-        testTask1.setId(1);
+        testTask1.setId(1L);
         testTask1.setTitle("This is updated task");
-        todoController.save(testTask1);
+//        todoController.save(testTask1);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/todo")
                 .content(new ObjectMapper().writeValueAsString(testTask1))
