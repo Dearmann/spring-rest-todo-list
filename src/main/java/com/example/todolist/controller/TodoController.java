@@ -2,6 +2,8 @@ package com.example.todolist.controller;
 
 import com.example.todolist.model.Task;
 import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.service.TodoService;
+import com.example.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,35 +17,34 @@ import java.util.NoSuchElementException;
 public class TodoController {
 
     @Autowired
-    private TodoRepository todoRepository;
+    private final TodoService todoService;
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
 
     @GetMapping
     public List<Task> findAll() {
-        return todoRepository.findAll();
+        return todoService.findAll();
     }
 
     @GetMapping("/{id}")
     public Task findOne(@PathVariable Long id) {
-        return todoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+        return todoService.findOne(id);
     }
 
     @PostMapping
     public Task save(@Valid @NotNull @RequestBody Task task) {
-        return todoRepository.save(task);
+        return todoService.save(task);
     }
 
     @PutMapping
     public Task update(@Valid @NotNull @RequestBody Task task) {
-        if(todoRepository.findById(task.getId()).isPresent()) {
-            return todoRepository.save(task);
-        } else {
-            throw new NoSuchElementException();
-        }
+       return todoService.update(task);
     }
 
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id) {
-        todoRepository.deleteById(id);
+        todoService.delete(id);
     }
 }

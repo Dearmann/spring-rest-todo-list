@@ -1,5 +1,7 @@
 package com.example.todolist.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,6 +21,12 @@ public class User {
     private List<Task> taskSet = new ArrayList<>();
 
     public User() {
+    }
+
+    public User(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
     }
 
     public User(Long id, String username, String password, List<Task> taskSet) {
