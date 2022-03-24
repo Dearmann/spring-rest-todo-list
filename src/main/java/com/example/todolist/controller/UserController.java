@@ -4,6 +4,8 @@ import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
 import com.example.todolist.repository.TodoRepository;
 import com.example.todolist.repository.UserRepository;
+import com.example.todolist.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,12 +17,17 @@ import java.util.NoSuchElementException;
 @RequestMapping("/user")
 public class UserController {
 
+    // TODO - Move to service?
     private UserRepository userRepository;
     private TodoRepository todoRepository;
 
-    public UserController(UserRepository userRepository, TodoRepository todoRepository) {
+    @Autowired
+    private UserServiceImpl userService;
+
+    public UserController(UserRepository userRepository, TodoRepository todoRepository, UserServiceImpl userService) {
         this.userRepository = userRepository;
         this.todoRepository = todoRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -40,10 +47,7 @@ public class UserController {
 
     @PostMapping("/{userId}/task")
     public void addTask(@PathVariable Long userId, @RequestBody Task task) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
-        user.getTaskSet().add(task);
-        todoRepository.save(task);
-        userRepository.save(user);
+        userService.addTask(userId, task, userRepository, todoRepository);
     }
 
     @PostMapping("/task/{taskId}")
