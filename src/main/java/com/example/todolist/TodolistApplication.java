@@ -2,6 +2,7 @@ package com.example.todolist;
 
 import com.example.todolist.controller.TodoController;
 import com.example.todolist.model.Task;
+import com.example.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +12,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TodolistApplication implements CommandLineRunner {
 
     @Autowired
-    TodoController todoController;
+    private TodoController todoController;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(TodolistApplication.class, args);
