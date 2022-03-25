@@ -39,11 +39,6 @@ public class UserController {
         userService.addTask(userId, task);
     }
 
-    @PostMapping("/task/{taskId}")
-    public void toggleTaskComplete(@PathVariable Long taskId) {
-        userService.toggleTaskCompletion(taskId);
-    }
-
     @PutMapping("/{id}")
     public User update(@RequestBody User newUser, @PathVariable Long id) {
         return userService.update(newUser, id);

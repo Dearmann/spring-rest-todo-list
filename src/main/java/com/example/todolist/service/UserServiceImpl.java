@@ -54,13 +54,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void toggleTaskCompletion(Long taskId) {
-        Task task = todoRepository.findById(taskId).orElseThrow(NoSuchElementException::new);
-        task.setDone(!task.isDone());
-        todoRepository.save(task);
-    }
-
-    @Override
     public User update(User newUser, Long id) {
         return userRepository.findById(id)
                 .map(user -> {

@@ -6,9 +6,10 @@ import java.util.List;
 
 public interface TodoService {
 
-    public List<Task> findAll();
-    public Task findOne(Long id);
-    public Task save(Task task);
-    public Task update(Task newTask, Long id);
-    public void delete(Long id);
+    List<Task> findAll();
+    Task findOne(Long id);
+    Task save(Task task);
+    void toggleTaskCompletion(Long taskId);
+    Task update(Task newTask, Long id);
+    void delete(Long id);
 }

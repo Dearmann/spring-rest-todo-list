@@ -34,6 +34,13 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
+    public void toggleTaskCompletion(Long taskId) {
+        Task task = todoRepository.findById(taskId).orElseThrow(NoSuchElementException::new);
+        task.setDone(!task.isDone());
+        todoRepository.save(task);
+    }
+
+    @Override
     public Task update(Task newTask, Long id) {
         return todoRepository.findById(id)
                 .map(task -> {

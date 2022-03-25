@@ -5,8 +5,6 @@ import com.example.todolist.service.TodoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -31,12 +29,17 @@ public class TodoController {
     }
 
     @PostMapping
-    public Task save(@Valid @NotNull @RequestBody Task task) {
+    public Task save(@RequestBody Task task) {
         return todoService.save(task);
     }
 
+    @PostMapping("/{taskId}")
+    public void toggleTaskCompletion(@PathVariable Long taskId) {
+        todoService.toggleTaskCompletion(taskId);
+    }
+
     @PutMapping("/{id}")
-    public Task update(@Valid @NotNull @RequestBody Task newTask, @PathVariable Long id) {
+    public Task update(@RequestBody Task newTask, @PathVariable Long id) {
        return todoService.update(newTask, id);
     }
 
