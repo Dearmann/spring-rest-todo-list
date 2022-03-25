@@ -151,12 +151,10 @@ class UserServiceTest {
     @Test
     void deleteUser() {
         User user = new User(1L,"TestUsername","TestPassword");
-
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        userService.addUser(user);
         userService.deleteUser(user.getId());
 
-        verify(userRepository, times(1)).save(user);
+        verify(userRepository, times(1)).delete(user);
     }
 }
