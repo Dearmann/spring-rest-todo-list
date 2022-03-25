@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
     @Mock
     private TodoRepository todoRepository;
     @Mock
@@ -112,7 +112,7 @@ class UserServiceTest {
     }
 
     @Test
-    void toggleTaskComplete() {
+    void toggleTaskCompletion() {
         User user = new User(1L, "TestUsername", "TestPassword");
         Task task = new Task();
         task.setTitle("Test Title");
@@ -123,7 +123,7 @@ class UserServiceTest {
 
         userService.addUser(user);
         userService.addTask(1L, task);
-        userService.toggleTaskComplete(task.getId());
+        userService.toggleTaskCompletion(task.getId());
 
         assertTrue(task.isDone());
     }

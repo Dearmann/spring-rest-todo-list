@@ -1,25 +1,22 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.model.Task;
-import com.example.todolist.repository.TodoRepository;
-import com.example.todolist.service.TodoService;
-import com.example.todolist.service.UserService;
+import com.example.todolist.service.TodoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value = "/todo")
 public class TodoController {
 
     @Autowired
-    private final TodoService todoService;
+    private final TodoServiceImpl todoService;
 
-    public TodoController(TodoService todoService) {
+    public TodoController(TodoServiceImpl todoService) {
         this.todoService = todoService;
     }
 

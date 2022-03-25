@@ -2,7 +2,7 @@ package com.example.todolist.controller;
 
 import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
-import com.example.todolist.service.UserService;
+import com.example.todolist.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +13,9 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -41,7 +41,7 @@ public class UserController {
 
     @PostMapping("/task/{taskId}")
     public void toggleTaskComplete(@PathVariable Long taskId) {
-        userService.toggleTaskComplete(taskId);
+        userService.toggleTaskCompletion(taskId);
     }
 
     // TODO - Deletes all tasks
