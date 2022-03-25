@@ -44,10 +44,9 @@ public class UserController {
         userService.toggleTaskCompletion(taskId);
     }
 
-    // TODO - Deletes all tasks
-    @PutMapping
-    public User update(@RequestBody User user) {
-        return userService.update(user);
+    @PutMapping("/{id}")
+    public User update(@RequestBody User newUser, @PathVariable Long id) {
+        return userService.update(newUser, id);
     }
 
     @DeleteMapping("{userId}/task/{taskId}")

@@ -132,7 +132,7 @@ class UserServiceTest {
     void update() {
         User user = new User(1L,"TestUsername","TestPassword");
 
-        assertThrows(NoSuchElementException.class, () -> userService.update(user));
+        assertThrows(NoSuchElementException.class, () -> userService.update(user,1L));
     }
 
     @Test

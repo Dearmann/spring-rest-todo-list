@@ -61,9 +61,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-        userRepository.findById(user.getId()).orElseThrow(NoSuchElementException::new);
-        return userRepository.save(user);
+    public User update(User newUser, Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setUsername(newUser.getUsername());
+                    user.setPassword(newUser.getPassword());
+                    user.setTaskSet(newUser.getTaskSet());
+                    return userRepository.save(user);
+                })
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Override

@@ -35,9 +35,9 @@ public class TodoController {
         return todoService.save(task);
     }
 
-    @PutMapping
-    public Task update(@Valid @NotNull @RequestBody Task task) {
-       return todoService.update(task);
+    @PutMapping("/{id}")
+    public Task update(@Valid @NotNull @RequestBody Task newTask, @PathVariable Long id) {
+       return todoService.update(newTask, id);
     }
 
     @DeleteMapping(value = "/{id}")

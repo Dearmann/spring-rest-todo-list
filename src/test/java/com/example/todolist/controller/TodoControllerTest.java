@@ -64,7 +64,7 @@ class TodoControllerTest {
         testTask1.setTitle("This is updated task");
 //        todoController.save(testTask1);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/todo")
+        mockMvc.perform(MockMvcRequestBuilders.put("/todo/1")
                 .content(new ObjectMapper().writeValueAsString(testTask1))
                 .contentType(MediaType.APPLICATION_JSON));
 
