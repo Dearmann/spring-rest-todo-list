@@ -28,9 +28,9 @@ public class TodoController {
         return todoService.findOne(id);
     }
 
-    @PostMapping
-    public Task save(@RequestBody Task task) {
-        return todoService.save(task);
+    @PostMapping("/user/{userId}")
+    public Task save(@RequestBody Task task, @PathVariable Long userId) {
+        return todoService.save(task, userId);
     }
 
     @PostMapping("/{taskId}")

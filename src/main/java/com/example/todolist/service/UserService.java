@@ -10,7 +10,6 @@ public interface UserService {
     List<User> findAll();
     User getUserById(Long userId);
     User addUser( User user);
-    void addTask(Long userId, Task task);
     User update(User newUser, Long id);
     void deleteUser(Long userId);
 }

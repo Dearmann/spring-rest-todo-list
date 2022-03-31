@@ -38,23 +38,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addTask(Long userId, Task task) {
-        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        boolean taskIsUnique = true;
-        for (Task taskCompare : user.getTaskSet()) {
-            if (taskCompare.getTitle().equals(task.getTitle())) {
-                taskIsUnique = false;
-            }
-        }
-        if (taskIsUnique) {
-            task.setUser(user);
-            user.getTaskSet().add(task);
-            todoRepository.save(task);
-            userRepository.save(user);
-        }
-    }
-
-    @Override
     public User update(User newUser, Long id) {
         return userRepository.findById(id)
                 .map(user -> {

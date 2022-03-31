@@ -3,6 +3,7 @@ package com.example.todolist.service;
 import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
 import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,11 @@ import java.util.NoSuchElementException;
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
 
-    public TodoServiceImpl(TodoRepository todoRepository) {
+    public TodoServiceImpl(TodoRepository todoRepository, UserRepository userRepository) {
         this.todoRepository = todoRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -30,8 +33,21 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Task save(Task task) {
-        return todoRepository.save(task);
+    public Task save(Task task, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        boolean taskIsUnique = true;
+        for (Task taskCompare : user.getTaskSet()) {
+            if (taskCompare.getTitle().equals(task.getTitle())) {
+                taskIsUnique = false;
+            }
+        }
+        if (taskIsUnique) {
+            userRepository.save(user);
+            task.setUser(user);
+            user.getTaskSet().add(task);
+            return todoRepository.save(task);
+        }
+        return null;
     }
 
     @Override

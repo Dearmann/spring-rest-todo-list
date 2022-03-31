@@ -3,6 +3,7 @@ package com.example.todolist.service;
 import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
 import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.repository.UserRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,13 +26,14 @@ class TodoServiceTest {
     private TodoServiceImpl todoService;
     @Mock
     private TodoRepository todoRepository;
+    @Mock
+    private UserRepository userRepository;
 
     private User user = new User(4L,"TestUsername","TestPassword");;
 
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
-//        user
     }
 
     @Test
@@ -66,11 +68,40 @@ class TodoServiceTest {
 
     @Test
     void save() {
+        Task task1 = new Task(1L,"TestTitle 1",false, user);
+        Task task2 = new Task(2L,"TestTitle 2",false, user);
+        when(userRepository.findById(3L)).thenReturn(Optional.of(user));
+
+        todoService.save(task1, 3L);
+        todoService.save(task2, 3L);
+
+        verify(todoRepository, times(1)).save(task1);
+        verify(todoRepository, times(1)).save(task2);
+        assertEquals(2,user.getTaskSet().size());
+        assertTrue(user.getTaskSet().contains(task1));
+        assertTrue(user.getTaskSet().contains(task2));
+    }
+
+    @Test
+    void saveSameTask() {
+        Task task1 = new Task(1L,"Same Title",false, user);
+        Task task2 = new Task(2L,"Same Title",false, user);
+        when(userRepository.findById(3L)).thenReturn(Optional.of(user));
+
+        todoService.save(task1, 3L);
+        todoService.save(task2, 3L);
+
+        verify(todoRepository, times(1)).save(task1);
+        assertEquals(1,user.getTaskSet().size());
+        assertTrue(user.getTaskSet().contains(task1));
+        assertFalse(user.getTaskSet().contains(task2));
+    }
+
+    @Test
+    void saveExceptionTest() {
         Task task = new Task(1L,"TestTitle",false, user);
 
-        todoService.save(task);
-
-        verify(todoRepository, times(1)).save(task);
+        assertThrows(NoSuchElementException.class, () -> todoService.save(task, 1L));
     }
 
     @Test

@@ -34,11 +34,6 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @PostMapping("/{userId}/task")
-    public void addTask(@PathVariable Long userId, @RequestBody Task task) {
-        userService.addTask(userId, task);
-    }
-
     @PutMapping("/{id}")
     public User update(@RequestBody User newUser, @PathVariable Long id) {
         return userService.update(newUser, id);

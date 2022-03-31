@@ -76,50 +76,6 @@ class UserServiceTest {
     }
 
     @Test
-    void addTask() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task1 = new Task();
-        task1.setTitle("Test Title 1");
-        Task task2 = new Task();
-        task2.setTitle("Test Title 2");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        userService.addUser(user);
-        userService.addTask(1L, task1);
-        userService.addTask(1L, task2);
-
-        assertEquals(2,user.getTaskSet().size());
-        assertTrue(user.getTaskSet().contains(task1));
-        assertTrue(user.getTaskSet().contains(task2));
-    }
-
-    @Test
-    void addTaskExceptionTest() {
-        Task task = new Task();
-        assertThrows(NoSuchElementException.class, () -> userService.addTask(1L, task));
-    }
-
-    @Test
-    void addSameTask() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task1 = new Task();
-        task1.setTitle("Same Title");
-        Task task2 = new Task();
-        task2.setTitle("Same Title");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        userService.addUser(user);
-        userService.addTask(1L, task1);
-        userService.addTask(1L, task2);
-
-        assertEquals(1,user.getTaskSet().size());
-        assertTrue(user.getTaskSet().contains(task1));
-        assertFalse(user.getTaskSet().contains(task2));
-    }
-
-    @Test
     void update() {
         User user = new User(1L,"TestUsername","TestPassword");
 
