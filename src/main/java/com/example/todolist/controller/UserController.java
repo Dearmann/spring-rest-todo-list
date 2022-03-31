@@ -44,11 +44,6 @@ public class UserController {
         return userService.update(newUser, id);
     }
 
-    @DeleteMapping("{userId}/task/{taskId}")
-    public void deleteTask(@PathVariable Long userId, @PathVariable Long taskId) {
-        userService.deleteTask(userId, taskId);
-    }
-
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);

@@ -108,23 +108,6 @@ class UserServiceTest {
         assertFalse(user.getTaskSet().contains(task2));
     }
 
-//    @Test
-//    void toggleTaskCompletion() {
-//        User user = new User(1L, "TestUsername", "TestPassword");
-//        Task task = new Task();
-//        task.setTitle("Test Title");
-//        task.setDone(false);
-//
-//        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-//        when(todoRepository.findById(task.getId())).thenReturn(Optional.of(task));
-//
-//        userService.addUser(user);
-//        userService.addTask(1L, task);
-//        userService.toggleTaskCompletion(task.getId());
-//
-//        assertTrue(task.isDone());
-//    }
-
     @Test
     void update() {
         User user = new User(1L,"TestUsername","TestPassword");
@@ -133,28 +116,9 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteTask() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task = new Task();
-        task.setTitle("Test Title");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(todoRepository.findById(task.getId())).thenReturn(Optional.of(task));
-
-        userService.addUser(user);
-        userService.addTask(1L, task);
-        userService.deleteTask(user.getId(), task.getId());
-
-        assertEquals(0, user.getTaskSet().size());
-    }
-
-    @Test
     void deleteUser() {
-        User user = new User(1L,"TestUsername","TestPassword");
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        userService.deleteUser(1L);
 
-        userService.deleteUser(user.getId());
-
-        verify(userRepository, times(1)).delete(user);
+        verify(userRepository, times(1)).deleteById(1L);
     }
 }

@@ -12,6 +12,5 @@ public interface UserService {
     User addUser( User user);
     void addTask(Long userId, Task task);
     User update(User newUser, Long id);
-    void deleteTask(Long userId, Long taskId);
     void deleteUser(Long userId);
 }

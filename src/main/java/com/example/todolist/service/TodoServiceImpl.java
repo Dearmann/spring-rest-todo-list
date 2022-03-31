@@ -1,6 +1,7 @@
 package com.example.todolist.service;
 
 import com.example.todolist.model.Task;
+import com.example.todolist.model.User;
 import com.example.todolist.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,8 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void delete(Long id) {
+        Task task = todoRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        task.getUser().getTaskSet().remove(task);
         todoRepository.deleteById(id);
     }
 }

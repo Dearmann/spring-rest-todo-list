@@ -1,5 +1,6 @@
 package com.example.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -17,7 +18,8 @@ public class User {
     private String username;
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
     private List<Task> taskSet = new ArrayList<>();
 
     public User() {

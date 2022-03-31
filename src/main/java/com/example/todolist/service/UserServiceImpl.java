@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (taskIsUnique) {
+            task.setUser(user);
             user.getTaskSet().add(task);
             todoRepository.save(task);
             userRepository.save(user);
@@ -66,16 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteTask(Long userId, Long taskId) {
-        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        Task task = todoRepository.findById(taskId).orElseThrow(NoSuchElementException::new);
-        user.getTaskSet().remove(task);
-        todoRepository.delete(task);
-    }
-
-    @Override
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        userRepository.delete(user);
+        userRepository.deleteById(userId);
     }
 }
