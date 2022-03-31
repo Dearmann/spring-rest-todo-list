@@ -60,6 +60,11 @@ class TodoServiceTest {
     }
 
     @Test
+    void findOneExceptionTest() {
+        assertThrows(NoSuchElementException.class, () -> todoService.findOne(1L));
+    }
+
+    @Test
     void save() {
         Task task = new Task(1L,"TestTitle",false, user);
 
@@ -79,10 +84,22 @@ class TodoServiceTest {
     }
 
     @Test
+    void toggleTaskCompletionExceptionTest() {
+        assertThrows(NoSuchElementException.class, () -> todoService.toggleTaskCompletion(1L));
+    }
+
+    @Test
     void update() {
         Task task = new Task(1L,"TestTitle",false, user);
 
         assertThrows(NoSuchElementException.class, () -> todoService.update(task,1L));
+    }
+
+    @Test
+    void updateExceptionTest() {
+        Task task = new Task(1L,"TestTitle",false, user);
+
+        assertThrows(NoSuchElementException.class, () -> todoService.update(task, 1L));
     }
 
     @Test
@@ -92,5 +109,10 @@ class TodoServiceTest {
         todoService.delete(1L);
 
         verify(todoRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void deleteExceptionTest() {
+        assertThrows(NoSuchElementException.class, () -> todoService.delete(1L));
     }
 }

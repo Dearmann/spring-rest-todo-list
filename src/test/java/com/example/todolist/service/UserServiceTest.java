@@ -62,6 +62,11 @@ class UserServiceTest {
     }
 
     @Test
+    void getUserByIdExceptionTest() {
+        assertThrows(NoSuchElementException.class, () -> userService.getUserById(1L));
+    }
+
+    @Test
     void addUser() {
         User user = new User(1L,"TestUsername","TestPassword");
 
@@ -87,6 +92,12 @@ class UserServiceTest {
         assertEquals(2,user.getTaskSet().size());
         assertTrue(user.getTaskSet().contains(task1));
         assertTrue(user.getTaskSet().contains(task2));
+    }
+
+    @Test
+    void addTaskExceptionTest() {
+        Task task = new Task();
+        assertThrows(NoSuchElementException.class, () -> userService.addTask(1L, task));
     }
 
     @Test
