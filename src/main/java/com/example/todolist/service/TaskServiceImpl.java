@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     public Task save(Task task, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
         boolean taskIsUnique = true;
-        for (Task taskCompare : user.getTaskSet()) {
+        for (Task taskCompare : user.getTaskList()) {
             if (taskCompare.getTitle().equals(task.getTitle())) {
                 taskIsUnique = false;
             }
@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
         if (taskIsUnique) {
             userRepository.save(user);
             task.setUser(user);
-            user.getTaskSet().add(task);
+            user.getTaskList().add(task);
             return todoRepository.save(task);
         }
         return null;
@@ -71,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(Long id) {
         Task task = todoRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        task.getUser().getTaskSet().remove(task);
+        task.getUser().getTaskList().remove(task);
         todoRepository.deleteById(id);
     }
 }

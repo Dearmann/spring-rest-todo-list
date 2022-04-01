@@ -1,13 +1,10 @@
 package com.example.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class User {
@@ -20,7 +17,7 @@ public class User {
 
     @JsonManagedReference
     @OneToMany(cascade=CascadeType.MERGE, mappedBy="user")
-    private List<Task> taskSet = new ArrayList<>();
+    private List<Task> taskList = new ArrayList<>();
 
     public User() {
     }
@@ -31,11 +28,11 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String username, String password, List<Task> taskSet) {
+    public User(Long id, String username, String password, List<Task> taskList) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.taskSet = taskSet;
+        this.taskList = taskList;
     }
 
     public Long getId() {
@@ -62,11 +59,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Task> getTaskSet() {
-        return taskSet;
+    public List<Task> getTaskList() {
+        return taskList;
     }
 
-    public void setTaskSet(List<Task> taskSet) {
-        this.taskSet = taskSet;
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
     }
 }

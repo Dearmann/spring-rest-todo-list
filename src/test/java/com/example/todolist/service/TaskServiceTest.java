@@ -77,9 +77,9 @@ class TaskServiceTest {
 
         verify(todoRepository, times(1)).save(task1);
         verify(todoRepository, times(1)).save(task2);
-        assertEquals(2,user.getTaskSet().size());
-        assertTrue(user.getTaskSet().contains(task1));
-        assertTrue(user.getTaskSet().contains(task2));
+        assertEquals(2,user.getTaskList().size());
+        assertTrue(user.getTaskList().contains(task1));
+        assertTrue(user.getTaskList().contains(task2));
     }
 
     @Test
@@ -92,9 +92,9 @@ class TaskServiceTest {
         todoService.save(task2, 3L);
 
         verify(todoRepository, times(1)).save(task1);
-        assertEquals(1,user.getTaskSet().size());
-        assertTrue(user.getTaskSet().contains(task1));
-        assertFalse(user.getTaskSet().contains(task2));
+        assertEquals(1,user.getTaskList().size());
+        assertTrue(user.getTaskList().contains(task1));
+        assertFalse(user.getTaskList().contains(task2));
     }
 
     @Test
