@@ -1,35 +1,50 @@
 package com.example.todolist.controller;
 
+import com.example.todolist.dto.TaskDto;
+import com.example.todolist.dto.TaskMapper;
+import com.example.todolist.dto.UserDto;
 import com.example.todolist.model.Task;
+import com.example.todolist.model.User;
 import com.example.todolist.service.TaskService;
 import com.example.todolist.service.TaskServiceImpl;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/todo")
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskMapper taskMapper;
 
-    public TaskController(TaskServiceImpl taskService) {
+    public TaskController(TaskService taskService, TaskMapper taskMapper) {
         this.taskService = taskService;
+        this.taskMapper = taskMapper;
     }
 
     @GetMapping
-    public List<Task> findAll() {
-        return taskService.findAll();
+    public List<TaskDto> findAll() {
+        return taskService.findAll().stream()
+                .map(taskMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Task findOne(@PathVariable Long id) {
-        return taskService.findOne(id);
+    public TaskDto findOne(@PathVariable Long id) {
+        Task task = taskService.findOne(id);
+        TaskDto taskResponse = taskMapper.entityToDto(task);
+        return taskResponse;
     }
 
     @PostMapping("/user/{userId}")
-    public Task save(@RequestBody Task task, @PathVariable Long userId) {
-        return taskService.save(task, userId);
+    public TaskDto save(@RequestBody @Validated TaskDto taskDto, @PathVariable Long userId) {
+        Task taskRequest = taskMapper.dtoToEntity(taskDto);
+        Task task = taskService.save(taskRequest, userId);
+        TaskDto taskResponse = taskMapper.entityToDto(task);
+        return taskResponse;
     }
 
     @PostMapping("/{taskId}")
@@ -38,8 +53,11 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task update(@RequestBody Task newTask, @PathVariable Long id) {
-       return taskService.update(newTask, id);
+    public TaskDto update(@RequestBody @Validated TaskDto taskDto, @PathVariable Long id) {
+        Task taskRequest = taskMapper.dtoToEntity(taskDto);
+        Task task = taskService.update(taskRequest, id);
+        TaskDto taskResponse = taskMapper.entityToDto(task);
+        return taskResponse;
     }
 
     @DeleteMapping(value = "/{id}")

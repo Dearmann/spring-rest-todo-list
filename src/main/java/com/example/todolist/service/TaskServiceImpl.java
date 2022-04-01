@@ -35,10 +35,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task save(Task task, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        task.setUser(user);
         boolean taskIsUnique = true;
         for (Task taskCompare : user.getTaskList()) {
             if (taskCompare.getTitle().equals(task.getTitle())) {
                 taskIsUnique = false;
+                break;
             }
         }
         if (taskIsUnique) {
@@ -47,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
             user.getTaskList().add(task);
             return todoRepository.save(task);
         }
-        return null;
+        return task;
     }
 
     @Override
