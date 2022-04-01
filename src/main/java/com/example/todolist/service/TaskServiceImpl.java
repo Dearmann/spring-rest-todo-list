@@ -2,7 +2,7 @@ package com.example.todolist.service;
 
 import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
-import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.repository.TaskRepository;
 import com.example.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +12,12 @@ import java.util.NoSuchElementException;
 
 @Service
 @Transactional
-public class TodoServiceImpl implements TodoService {
+public class TaskServiceImpl implements TaskService {
 
-    private final TodoRepository todoRepository;
+    private final TaskRepository todoRepository;
     private final UserRepository userRepository;
 
-    public TodoServiceImpl(TodoRepository todoRepository, UserRepository userRepository) {
+    public TaskServiceImpl(TaskRepository todoRepository, UserRepository userRepository) {
         this.todoRepository = todoRepository;
         this.userRepository = userRepository;
     }

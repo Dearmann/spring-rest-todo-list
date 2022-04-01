@@ -4,7 +4,7 @@ import com.example.todolist.model.Task;
 
 import java.util.List;
 
-public interface TodoService {
+public interface TaskService {
 
     List<Task> findAll();
     Task findOne(Long id);

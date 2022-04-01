@@ -1,8 +1,7 @@
 package com.example.todolist.service;
 
-import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
-import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.repository.TaskRepository;
 import com.example.todolist.repository.UserRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -25,7 +24,7 @@ class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
     @Mock
-    private TodoRepository todoRepository;
+    private TaskRepository todoRepository;
     @Mock
     private UserRepository userRepository;
 
