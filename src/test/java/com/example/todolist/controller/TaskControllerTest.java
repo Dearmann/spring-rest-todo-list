@@ -48,7 +48,6 @@ class TaskControllerTest {
     @Test
     void save() throws Exception {
         userRepository.save(user);
-        taskRepository.save(task);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/todo/user/1")
                 .content(new ObjectMapper().writeValueAsString(task))

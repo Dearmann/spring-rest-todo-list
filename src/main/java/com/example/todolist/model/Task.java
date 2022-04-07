@@ -29,6 +29,12 @@ public class Task {
         this.user = user;
     }
 
+    public Task(Long id, String title, boolean done) {
+        this.id = id;
+        this.title = title;
+        this.done = done;
+    }
+
     public Long getId() {
         return id;
     }

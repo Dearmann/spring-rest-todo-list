@@ -1,7 +1,6 @@
 package com.example.todolist.service;
 
 import com.example.todolist.model.User;
-import com.example.todolist.repository.TaskRepository;
 import com.example.todolist.repository.UserRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,6 @@ class UserServiceTest {
 
     @InjectMocks
     private UserServiceImpl userService;
-    @Mock
-    private TaskRepository todoRepository;
     @Mock
     private UserRepository userRepository;
 
