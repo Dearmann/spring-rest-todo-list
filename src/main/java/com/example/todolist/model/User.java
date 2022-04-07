@@ -16,7 +16,7 @@ public class User {
     private String password;
 
     @JsonManagedReference
-    @OneToMany(cascade=CascadeType.MERGE, mappedBy="user")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
     private List<Task> taskList = new ArrayList<>();
 
     public User() {
