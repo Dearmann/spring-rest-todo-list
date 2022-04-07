@@ -1,10 +1,8 @@
 package com.example.todolist.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 
 @Entity
 public class Task {
@@ -12,11 +10,23 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+    @Column(nullable = false)
     private String title;
     private boolean done = false;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
+
     public Task() {
+    }
+
+    public Task(Long id, String title, boolean done, User user) {
+        this.id = id;
+        this.title = title;
+        this.done = done;
+        this.user = user;
     }
 
     public Task(Long id, String title, boolean done) {
@@ -47,5 +57,13 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

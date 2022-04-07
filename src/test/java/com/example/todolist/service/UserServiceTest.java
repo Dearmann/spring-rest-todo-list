@@ -1,8 +1,6 @@
 package com.example.todolist.service;
 
-import com.example.todolist.model.Task;
 import com.example.todolist.model.User;
-import com.example.todolist.repository.TodoRepository;
 import com.example.todolist.repository.UserRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -11,7 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -23,27 +21,22 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @InjectMocks
-    private UserService userService;
-    @Mock
-    private TodoRepository todoRepository;
+    private UserServiceImpl userService;
     @Mock
     private UserRepository userRepository;
 
     @Before
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void findAll() {
-        List<User> list = new ArrayList<User>();
         User user1 = new User(1L,"TestUsername1","TestPassword1");
         User user2 = new User(2L,"TestUsername2","TestPassword2");
         User user3 = new User(3L,"TestUsername3","TestPassword3");
 
-        list.add(user1);
-        list.add(user2);
-        list.add(user3);
+        var list = List.of(user1,user2,user3);
 
         when(userRepository.findAll()).thenReturn(list);
 
@@ -65,6 +58,11 @@ class UserServiceTest {
     }
 
     @Test
+    void getUserByIdExceptionTest() {
+        assertThrows(NoSuchElementException.class, () -> userService.getUserById(1L));
+    }
+
+    @Test
     void addUser() {
         User user = new User(1L,"TestUsername","TestPassword");
 
@@ -74,92 +72,16 @@ class UserServiceTest {
     }
 
     @Test
-    void addTask() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task1 = new Task();
-        task1.setTitle("Test Title 1");
-        Task task2 = new Task();
-        task2.setTitle("Test Title 2");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        userService.addUser(user);
-        userService.addTask(1L, task1);
-        userService.addTask(1L, task2);
-
-        assertEquals(2,user.getTaskSet().size());
-        assertTrue(user.getTaskSet().contains(task1));
-        assertTrue(user.getTaskSet().contains(task2));
-    }
-
-    @Test
-    void addSameTask() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task1 = new Task();
-        task1.setTitle("Same Title");
-        Task task2 = new Task();
-        task2.setTitle("Same Title");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        userService.addUser(user);
-        userService.addTask(1L, task1);
-        userService.addTask(1L, task2);
-
-        assertEquals(1,user.getTaskSet().size());
-        assertTrue(user.getTaskSet().contains(task1));
-        assertFalse(user.getTaskSet().contains(task2));
-    }
-
-    @Test
-    void toggleTaskComplete() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task = new Task();
-        task.setTitle("Test Title");
-        task.setDone(false);
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(todoRepository.findById(task.getId())).thenReturn(Optional.of(task));
-
-        userService.addUser(user);
-        userService.addTask(1L, task);
-        userService.toggleTaskComplete(task.getId());
-
-        assertTrue(task.isDone());
-    }
-
-    @Test
     void update() {
         User user = new User(1L,"TestUsername","TestPassword");
 
-        assertThrows(NoSuchElementException.class, () -> userService.update(user));
-    }
-
-    @Test
-    void deleteTask() {
-        User user = new User(1L, "TestUsername", "TestPassword");
-        Task task = new Task();
-        task.setTitle("Test Title");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(todoRepository.findById(task.getId())).thenReturn(Optional.of(task));
-
-        userService.addUser(user);
-        userService.addTask(1L, task);
-        userService.deleteTask(user.getId(), task.getId());
-
-        assertEquals(0, user.getTaskSet().size());
+        assertThrows(NoSuchElementException.class, () -> userService.update(user,1L));
     }
 
     @Test
     void deleteUser() {
-        User user = new User(1L,"TestUsername","TestPassword");
+        userService.deleteUser(1L);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        userService.addUser(user);
-        userService.deleteUser(user.getId());
-
-        verify(userRepository, times(1)).save(user);
+        verify(userRepository, times(1)).deleteById(1L);
     }
 }

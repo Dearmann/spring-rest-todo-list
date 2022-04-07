@@ -1,34 +1,20 @@
-package com.example.todolist.model;
+package com.example.todolist.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.example.todolist.model.Task;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class UserDto {
     private Long id;
+    @NotBlank
     private String username;
+    @NotNull
     private String password;
+    private List<Task> taskList;
 
-    @JsonManagedReference
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-    private List<Task> taskList = new ArrayList<>();
-
-    public User() {
-    }
-
-    public User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(Long id, String username, String password, List<Task> taskList) {
+    public UserDto(Long id, String username, String password, List<Task> taskList) {
         this.id = id;
         this.username = username;
         this.password = password;
