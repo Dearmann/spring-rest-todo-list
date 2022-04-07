@@ -16,13 +16,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-//    private final ModelMapper modelMapper;
-
-//    public UserController(UserService userService, ModelMapper modelMapper, UserMapper userMapper) {
-//        this.userService = userService;
-//        this.modelMapper = modelMapper;
-//        this.userMapper = userMapper;
-//    }
 
     public UserController(UserService userService, UserMapper userConverter) {
         this.userService = userService;
@@ -45,10 +38,8 @@ public class UserController {
 
     @PostMapping
     public UserDto addUser(@RequestBody @Validated UserDto userDto) {
-//        User userRequest = modelMapper.map(userDto, User.class);
         User userRequest = userMapper.dtoToEntity(userDto);
         User user = userService.addUser(userRequest);
-//        UserDto userResponse = modelMapper.map(user, UserDto.class);
         UserDto userResponse = userMapper.entityToDto(user);
         return userResponse;
     }

@@ -2,11 +2,8 @@ package com.example.todolist.controller;
 
 import com.example.todolist.dto.TaskDto;
 import com.example.todolist.dto.TaskMapper;
-import com.example.todolist.dto.UserDto;
 import com.example.todolist.model.Task;
-import com.example.todolist.model.User;
 import com.example.todolist.service.TaskService;
-import com.example.todolist.service.TaskServiceImpl;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
